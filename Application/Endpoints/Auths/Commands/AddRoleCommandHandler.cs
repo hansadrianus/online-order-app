@@ -28,9 +28,9 @@ namespace Application.Endpoints.Auths.Commands
 
         public async Task<EndpointResult<RoleViewModel>> Handle(AddRoleCommand request, CancellationToken cancellationToken)
         {
-            var validationErrors = _requestValidator.ValidateRequest(request);
-            if (validationErrors.Any())
-                return new EndpointResult<RoleViewModel>(Models.Enumerations.EndpointResultStatus.BadRequest, validationErrors.ToArray());
+            var validations = _requestValidator.ValidateRequest(request);
+            if (validations.Any())
+                return new EndpointResult<RoleViewModel>(Models.Enumerations.EndpointResultStatus.BadRequest, validations.ToArray());
 
             try
             {

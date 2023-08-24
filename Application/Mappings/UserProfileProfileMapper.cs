@@ -1,5 +1,6 @@
 ﻿using Application.Endpoints.Auths.Commands;
 using Application.Endpoints.Auths.Queries;
+using Application.Models.Enumerations;
 using Application.ViewModels;
 using AutoMapper;
 using Domain.Entities;
@@ -16,10 +17,10 @@ namespace Application.Mappings
         public UserProfileProfileMapper()
         {
             CreateMap<ApplicationUser, UserProfileViewModel>()
-                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == 0) ? 1 : 0))
+                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == (short)DbStatus.Active) ? 1 : 0))
                 .ReverseMap();
             CreateMap<GetUserProfileQuery, GetUserProfileQuery>()
-                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == 0) ? 1 : 0));
+                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == (short)DbStatus.Active) ? 1 : 0));
         }
     }
 }

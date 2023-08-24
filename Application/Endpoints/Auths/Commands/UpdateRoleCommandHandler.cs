@@ -2,6 +2,7 @@
 using Application.Interfaces.Services;
 using Application.Interfaces.Wrappers;
 using Application.Models;
+using Application.Models.Enumerations;
 using Application.ViewModels;
 using AutoMapper;
 using Domain.Entities;
@@ -31,14 +32,14 @@ namespace Application.Endpoints.Auths.Commands
 
         public async Task<EndpointResult<RoleViewModel>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
-            var validationErrors = _requestValidator.ValidateRequest(request);
-            if (validationErrors.Any())
-                return new EndpointResult<RoleViewModel>(Models.Enumerations.EndpointResultStatus.BadRequest, validationErrors.ToArray());
+            var validations = _requestValidator.ValidateRequest(request);
+            if (validations.Any())
+                return new EndpointResult<RoleViewModel>(Models.Enumerations.EndpointResultStatus.BadRequest, validations.ToArray());
 
             try
             {
                 var roleToUpdate = _mapper.Map<ApplicationRole>(request);
-                var sourceRole = await _repository.Role.GetAsync(q => q.Id == roleToUpdate.Id && q.RowStatus == 0, cancellationToken);
+                var sourceRole = await _repository.Role.GetAsync(q => q.Id == roleToUpdate.Id && q.RowStatus == (short)DbStatus.Active, cancellationToken);
                 if (sourceRole != null)
                     return new EndpointResult<RoleViewModel>(Models.Enumerations.EndpointResultStatus.Invalid, "Data not found.");
 

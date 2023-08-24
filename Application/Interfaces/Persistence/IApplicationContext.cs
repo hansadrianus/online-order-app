@@ -8,6 +8,10 @@ namespace Application.Interfaces.Persistence
 {
     public interface IApplicationContext
     {
+        DbSet<Billing> Billing { get; set; }
+        DbSet<Product> Product { get; set; }
+        DbSet<SalesOrderDetail> SalesOrderDetail { get; set; }
+        DbSet<SalesOrderHeader> SalesOrderHeader { get; set; }
         EntityEntry Add(object entity);
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
         ValueTask<EntityEntry> AddAsync(object entity, CancellationToken cancellationToken = default);

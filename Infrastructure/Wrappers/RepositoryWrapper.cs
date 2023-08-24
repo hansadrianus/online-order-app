@@ -1,8 +1,14 @@
 ﻿using Application.Interfaces.Persistence;
 using Application.Interfaces.Persistence.Auths;
+using Application.Interfaces.Persistence.Billings;
+using Application.Interfaces.Persistence.Products;
+using Application.Interfaces.Persistence.SalesOrders;
 using Application.Interfaces.Wrappers;
 using Domain.Entities;
 using Infrastructure.Repositories.Auths;
+using Infrastructure.Repositories.Billings;
+using Infrastructure.Repositories.Products;
+using Infrastructure.Repositories.SalesOrders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
@@ -16,6 +22,9 @@ namespace Infrastructure.Wrappers
         private IAuthRepository _auth;
         private IRoleRepository _role;
         private IUserRoleRepository _userRole;
+        private IProductRepository _product;
+        private ISalesOrderRepository _salesOrder;
+        private IBillingRepository _billing;
 
         public RepositoryWrapper(IApplicationContext context, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
@@ -48,6 +57,33 @@ namespace Infrastructure.Wrappers
             {
                 _userRole ??= new UserRoleRepository(_context);
                 return _userRole;
+            }
+        }
+
+        public IProductRepository Product
+        {
+            get
+            {
+                _product ??= new ProductRepository(_context);
+                return _product;
+            }
+        }
+
+        public ISalesOrderRepository SalesOrder
+        {
+            get
+            {
+                _salesOrder ??= new SalesOrderRepository(_context);
+                return _salesOrder;
+            }
+        }
+
+        public IBillingRepository Billing
+        {
+            get
+            {
+                _billing ??= new BillingRepository(_context);
+                return _billing;
             }
         }
 

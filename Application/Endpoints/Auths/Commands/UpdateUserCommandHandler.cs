@@ -32,14 +32,14 @@ namespace Application.Endpoints.Auths.Commands
 
         public async Task<EndpointResult<UserViewModel>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var validationErrors = _requestValidator.ValidateRequest(request);
-            if (validationErrors.Any())
-                return new EndpointResult<UserViewModel>(EndpointResultStatus.BadRequest, validationErrors.ToArray());
+            var validations = _requestValidator.ValidateRequest(request);
+            if (validations.Any())
+                return new EndpointResult<UserViewModel>(EndpointResultStatus.BadRequest, validations.ToArray());
 
             try
             {
                 var userToUpdate = _mapper.Map<ApplicationUser>(request);
-                var sourceUser = await _repository.Auth.GetAsync(q => q.Id == userToUpdate.Id && q.RowStatus == 0, cancellationToken);
+                var sourceUser = await _repository.Auth.GetAsync(q => q.Id == userToUpdate.Id && q.RowStatus == (short)DbStatus.Active, cancellationToken);
                 if (sourceUser == null)
                     return new EndpointResult<UserViewModel>(EndpointResultStatus.Invalid, "Data not found.");
 

@@ -24,9 +24,9 @@ namespace Application.Endpoints.Auths.Commands
 
         public async Task<EndpointResult<RefreshTokenViewModel>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var validationErrors = _requestValidator.ValidateRequest(request);
-            if (validationErrors.Any())
-                return new EndpointResult<RefreshTokenViewModel>(EndpointResultStatus.BadRequest, validationErrors.ToArray());
+            var validations = _requestValidator.ValidateRequest(request);
+            if (validations.Any())
+                return new EndpointResult<RefreshTokenViewModel>(EndpointResultStatus.BadRequest, validations.ToArray());
 
             try
             {

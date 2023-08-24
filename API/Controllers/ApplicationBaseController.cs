@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     [ExcludeFromCodeCoverage]
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]

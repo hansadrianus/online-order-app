@@ -34,6 +34,11 @@ namespace Infrastructure.Persistence
             _configuration = configuration;
         }
 
+        public DbSet<Product> Product { get; set; }
+        public DbSet<SalesOrderHeader> SalesOrderHeader { get; set; }
+        public DbSet<SalesOrderDetail> SalesOrderDetail { get; set; }
+        public DbSet<Billing> Billing { get; set; }
+
         public override EntityEntry<TEntity> Add<TEntity>(TEntity entity)
         {
             return base.Add(entity);

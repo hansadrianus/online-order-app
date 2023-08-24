@@ -1,4 +1,5 @@
 ﻿using Application.Endpoints.Auths.Commands;
+using Application.Models.Enumerations;
 using Application.ViewModels;
 using AutoMapper;
 using Domain.Entities;
@@ -15,7 +16,7 @@ namespace Application.Mappings
         public UserProfileMapper()
         {
             CreateMap<ApplicationUser, UserViewModel>()
-                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => src.RowStatus == 0 ? 1 : 0))
+                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => src.RowStatus == (short)DbStatus.Active ? 1 : 0))
                 .ReverseMap();
             CreateMap<AddUserCommand, ApplicationUser>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -50,7 +51,7 @@ namespace Application.Mappings
                 .ForMember(dest => dest.PhoneNumberConfirmed, opt => opt.Ignore())
                 .ForMember(dest => dest.SecurityStamp, opt => opt.Ignore())
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
-                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == 0) ? 1 : 0))
+                .ForMember(dest => dest.RowStatus, opt => opt.MapFrom(src => (src.RowStatus == (short)DbStatus.Active) ? 1 : 0))
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedTime, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
